@@ -39,9 +39,13 @@ o cae al vacío. Player mask=6 (Env+Enemies); Enemy mask=3 (Env+Player).
 ## Desarrollo vía MCP (Godot AI)
 - El editor expone herramientas MCP mediante el addon `addons/godot_ai` (server en
   `http://127.0.0.1:8000/mcp`, config en `.mcp.json`).
-- **Requisito:** tener **Godot abierto con el plugin "Godot AI" activo** ANTES de
-  lanzar la sesión del agente, o las herramientas de Godot no estarán disponibles.
-- Si reinicias Godot a mitad de sesión, reinicia también la sesión del agente.
+- **Prerequisitos en la máquina:** Godot 4.6+, Claude Code, git y **`uv`**
+  (⚠️ el plugin usa `uv` para levantar el server MCP; sin él no arranca).
+- **Requisito de arranque:** tener **Godot abierto con el plugin "Godot AI" activo**
+  ANTES de lanzar la sesión del agente, o las herramientas de Godot no estarán disponibles.
+- Si reinicias Godot a mitad de sesión (o ves *"Unable to connect"*), reinicia también
+  la sesión del agente.
+- 📄 **Guía completa de puesta en marcha (máquina nueva): [`docs/MCP_SETUP.md`](docs/MCP_SETUP.md)**.
 
 ## Flujo multi-máquina (PC ↔ notebook)
 1. `git pull` al empezar.
