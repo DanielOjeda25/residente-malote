@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://c6ss2j8msg66o"]
+
+[ext_resource type="Script" uid="uid://dxiix862u8sl4" path="res://scripts/enemies/enemy_ai.gd" id="1_uyva8"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_k065o"]
+radius = 0.3
+height = 1.8
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_nfels"]
+radius = 0.3
+height = 1.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_px283"]
+albedo_color = Color(0.8, 0.2, 0.2, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_h54vf"]
+radius = 8.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_82p78"]
+radius = 1.5
+
+[node name="EnemyHuman" type="CharacterBody3D" unique_id=2094346827]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_uyva8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1333220335]
+shape = SubResource("CapsuleShape3D_k065o")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=372960017]
+mesh = SubResource("CapsuleMesh_nfels")
+surface_material_override/0 = SubResource("StandardMaterial3D_px283")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=1247208628]
+
+[node name="DetectionArea" type="Area3D" parent="." unique_id=1587980954]
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DetectionArea" unique_id=462137421]
+shape = SubResource("SphereShape3D_h54vf")
+
+[node name="AttackArea" type="Area3D" parent="." unique_id=1961518970]
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AttackArea" unique_id=1093802838]
+shape = SubResource("SphereShape3D_82p78")

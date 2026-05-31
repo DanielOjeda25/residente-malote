@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/inventory/item_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+item_id = "key_fragment_b"
+item_name = "Fragmento de Llave (B)"
+description = "La otra mitad de la llave oxidada."
+type = 4
+combine_with_id = "key_fragment_a"
+combine_result_id = "rusty_key"

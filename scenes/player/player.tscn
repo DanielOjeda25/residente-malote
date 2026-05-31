@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://nmfumfeeitqu"]
+
+[ext_resource type="Script" uid="uid://dgndf22e5pv3e" path="res://scripts/player/player_controller.gd" id="1_dovo2"]
+[ext_resource type="Script" uid="uid://7tttieh1fndv" path="res://scripts/inventory/inventory_manager.gd" id="2_gmlin"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lvxji"]
+radius = 0.3
+height = 1.8
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_p47bc"]
+radius = 0.3
+height = 1.8
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_75vfm"]
+radius = 0.3
+height = 1.8
+
+[node name="Player" type="CharacterBody3D" unique_id=757797347 groups=["player"]]
+collision_mask = 6
+script = ExtResource("1_dovo2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1201562133]
+shape = SubResource("CapsuleShape3D_lvxji")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1557245227]
+mesh = SubResource("CapsuleMesh_p47bc")
+
+[node name="InteractionRay" type="RayCast3D" parent="." unique_id=1202150463]
+target_position = Vector3(0, 0, -2)
+collision_mask = 8
+
+[node name="WeaponPivot" type="Node3D" parent="." unique_id=1573929769]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 1, -0.5)
+
+[node name="MuzzlePoint" type="Marker3D" parent="WeaponPivot" unique_id=1673333158]
+
+[node name="HurtBox" type="Area3D" parent="." unique_id=542268403]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBox" unique_id=1566106843]
+shape = SubResource("CapsuleShape3D_75vfm")
+
+[node name="InventoryManager" type="Node" parent="." unique_id=1274467555]
+script = ExtResource("2_gmlin")
