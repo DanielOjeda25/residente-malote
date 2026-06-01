@@ -22,10 +22,12 @@ Leyenda: ✅ hecho · 🟡 en progreso · ⬜ pendiente
 - [x] **Cámaras estilo RE1: reposicionar + transición bidireccional fluida**
 - [x] Look PSX completo (viewport 320×240 + shader en suelo, paredes, player y enemigo)
 
-## Fase 2 — Sistemas ⬜
+## Fase 2 — Sistemas 🟡
 - [x] Estructura de inventario (script) + items `.tres`
 - [x] HUD (vida, munición, prompts)
-- [ ] Sistema de interacción probado en mapa (pickups + puertas colocados)
+- [x] Nivel reconstruido: dos salas + **puerta** colocada (`door.gd`)
+- [ ] Apertura de puerta (E) y transición de cámara entre salas — verificar en runtime
+- [ ] Pickups colocados + interacción (E) probada
 - [ ] Combate verificado (apuntar + disparar + cuchillo contra enemigo)
 - [ ] Inventario funcional en juego (abrir, usar, combinar)
 
@@ -44,7 +46,8 @@ Leyenda: ✅ hecho · 🟡 en progreso · ⬜ pendiente
 ---
 
 ### Hito actual
-**Fase 1 cerrada** ✅ — nivel de prueba jugable con cámaras estilo RE1 y look PSX
-(320×240 + shader con luz por vértice en todo el nivel).
-Siguiente: **Fase 2 — Sistemas** → colocar pickups + puertas en el mapa, verificar
-interacción/inventario en juego y el combate (apuntar/disparar/cuchillo) contra el enemigo.
+**Fase 1 cerrada** ✅ y **Fase 2 en marcha** 🟡. El nivel `test_level` se reconstruyó
+como **dos salas + puerta** (graybox limpio) con cámaras fijas dentro de cada sala y
+look PSX (320×240). Pendiente inmediato (verificar en runtime): que la puerta abra con
+**E** y que la cámara cambie bien al cruzar de sala. Luego: pickups, inventario en juego
+y combate contra el enemigo.

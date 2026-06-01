@@ -20,7 +20,7 @@ Se rehízo `test_level.tscn` desde cero para limpiar parches acumulados.
 - 2 `OmniLight3D` interiores + niebla ambiental. Snapping del entorno bajado a 0.2
   (menos deformación en superficies grandes).
 - ⚠️ Pendiente de verificar en runtime por el autor: apertura de la puerta (E) y la
-  transición de cámara entre salas. (Docs detalladas pendientes; commit de respaldo.)
+  transición de cámara entre salas.
 
 ---
 
