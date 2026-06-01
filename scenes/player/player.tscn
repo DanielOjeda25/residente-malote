@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dgndf22e5pv3e" path="res://scripts/player/player_controller.gd" id="1_dovo2"]
 [ext_resource type="Script" uid="uid://7tttieh1fndv" path="res://scripts/inventory/inventory_manager.gd" id="2_gmlin"]
+[ext_resource type="Material" path="res://resources/psx_material_player.tres" id="2_lvxji"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lvxji"]
 radius = 0.3
@@ -23,6 +24,7 @@ script = ExtResource("1_dovo2")
 shape = SubResource("CapsuleShape3D_lvxji")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1557245227]
+material_override = ExtResource("2_lvxji")
 mesh = SubResource("CapsuleMesh_p47bc")
 
 [node name="InteractionRay" type="RayCast3D" parent="." unique_id=1202150463]

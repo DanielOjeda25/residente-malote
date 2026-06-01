@@ -3,7 +3,8 @@
 // Aplicar como material en un ShaderMaterial a todos los MeshInstance3D del nivel
 
 shader_type spatial;
-render_mode unshaded, vertex_lighting, skip_vertex_transform;
+// vertex_lighting: iluminación por vértice estilo PS1 (no unshaded → el nivel ya no se ve plano).
+render_mode vertex_lighting, skip_vertex_transform;
 
 // Controles
 uniform float snap_intensity : hint_range(0.0, 1.0, 0.01) = 0.5;
@@ -26,6 +27,10 @@ void vertex() {
 	// Transform al view space
 	vec4 view_pos = MODELVIEW_MATRIX * vec4(VERTEX, 1.0);
 	vertex_view_pos = view_pos.xyz;
+
+	// Con skip_vertex_transform debemos pasar la NORMAL a view space nosotros
+	// (necesario para que vertex_lighting ilumine bien las superficies).
+	NORMAL = normalize((MODELVIEW_MATRIX * vec4(NORMAL, 0.0)).xyz);
 
 	// Proyección
 	vec4 clip_pos = PROJECTION_MATRIX * view_pos;

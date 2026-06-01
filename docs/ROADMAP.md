@@ -13,14 +13,14 @@ Leyenda: ✅ hecho · 🟡 en progreso · ⬜ pendiente
 - [x] Conexión MCP (addon Godot AI) + `.mcp.json`
 - [x] Repo Git + documentación (`docs/`, `CLAUDE.md`)
 
-## Fase 1 — Core jugable 🟡
+## Fase 1 — Core jugable ✅
 - [x] Input Map (11 acciones)
 - [x] Player controller con movimiento relativo a cámara
 - [x] Sistema de cámara fija con zonas (básico)
 - [x] Nivel graybox de prueba (`test_level`)
 - [x] Shader PSX básico (aplicado solo al suelo, demo)
-- [ ] **Cámaras estilo RE1: reposicionar + transición bidireccional fluida** ← siguiente
-- [ ] Look PSX completo (viewport 320×240 + shader en todo el nivel)
+- [x] **Cámaras estilo RE1: reposicionar + transición bidireccional fluida**
+- [x] Look PSX completo (viewport 320×240 + shader en suelo, paredes, player y enemigo)
 
 ## Fase 2 — Sistemas ⬜
 - [x] Estructura de inventario (script) + items `.tres`
@@ -44,5 +44,7 @@ Leyenda: ✅ hecho · 🟡 en progreso · ⬜ pendiente
 ---
 
 ### Hito actual
-**Cerrar Fase 1** → dejar el nivel de prueba completamente jugable con cámaras
-estilo RE1 y el look PSX a punto.
+**Fase 1 cerrada** ✅ — nivel de prueba jugable con cámaras estilo RE1 y look PSX
+(320×240 + shader con luz por vértice en todo el nivel).
+Siguiente: **Fase 2 — Sistemas** → colocar pickups + puertas en el mapa, verificar
+interacción/inventario en juego y el combate (apuntar/disparar/cuchillo) contra el enemigo.

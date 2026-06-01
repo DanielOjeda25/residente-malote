@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c6ss2j8msg66o"]
 
 [ext_resource type="Script" uid="uid://dxiix862u8sl4" path="res://scripts/enemies/enemy_ai.gd" id="1_uyva8"]
+[ext_resource type="Material" path="res://resources/psx_material_enemy.tres" id="2_k065o"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_k065o"]
 radius = 0.3
@@ -28,6 +29,7 @@ script = ExtResource("1_uyva8")
 shape = SubResource("CapsuleShape3D_k065o")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=372960017]
+material_override = ExtResource("2_k065o")
 mesh = SubResource("CapsuleMesh_nfels")
 surface_material_override/0 = SubResource("StandardMaterial3D_px283")
 

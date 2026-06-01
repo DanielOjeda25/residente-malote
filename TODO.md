@@ -5,60 +5,57 @@
 
 ---
 
-## 🎥 Sistema de cámaras fijas estilo Resident Evil 1
+## ▶️ PRIORIDAD: Fase 2 — Sistemas en el mapa
 
-**Estado:** funcional básico, pendiente de pulido. PRIORIDAD para la próxima sesión.
+Fase 1 cerrada (core jugable + cámaras RE1 + look PSX). Siguiente, verificar sistemas
+en juego sobre `test_level`:
+1. **Pickups + puertas**: instanciar `pickup.gd` (con un `ItemData`) y `door.gd` en el
+   mapa y probar interacción con **E** (el HUD ya muestra el prompt `[E] ...`).
+2. **Inventario en juego**: abrir con **Tab**, usar/combinar (el puzzle de la llave usa
+   `key_fragment_a` + `key_fragment_b` → `rusty_key`). Existe `inventory_manager.gd` pero
+   falta una UI de inventario montada (`inventory_ui.gd` está pero sin escena).
+3. **Combate**: apuntar (click der.) + disparar (click izq., requiere munición) + cuchillo
+   (F) contra `EnemyHuman`. Verificar daño y muerte.
 
-### Objetivo
-Lograr el look de **Resident Evil 1 (PS1)**: cámaras fijas con ángulos
-cinematográficos, y transición **bidireccional** entre zonas (al caminar
-hacia adelante cambia de Cámara 1 → 2, y al volver hacia atrás de 2 → 1).
+### Notas de iluminación (pendiente menor)
+- `DirectionalLight3D` con `light_energy=0.3` + `OmniLight3D` ≈2.2. Para el ambiente
+  nocturno del GDD: bajar luz ambiente y reforzar niebla. No urgente.
+- Opcional look PSX: `psx_dither.gdshader` (sin crear).
 
-### Qué hay montado ahora
-- Escena: `res://scenes/levels/test_level.tscn`
-- Nodo `CameraSystem` (Node3D) con script `res://scripts/camera/fixed_camera_system.gd`
-  - `fade_duration = 0.4`, `initial_camera_index = 0`
-- Dos zonas, cada una `Area3D` + `CollisionShape3D` + `Camera3D` hija,
-  con script `res://scripts/camera/camera_zone.gd`:
+---
 
-  | Zona | Posición (z) | Cubre |
-  |------|--------------|-------|
-  | `CameraZone_01` | z = +3.5 | parte cercana (player aparece en z=5) |
-  | `CameraZone_02` | z = −3.5 | fondo del pasillo (enemigo en z=−4) |
+## 🎞️ Look PSX — ✅ RESUELTO (2026-06-01)
 
-- El enemigo (`EnemyHuman`) está en z=−4, dentro de la zona 2. Por eso el
-  cambio de cámara coincide con "acercarse al enemigo" (NO lo causa el enemigo).
+Detalle en `docs/CHANGELOG.md`. Resumen:
+- Render 320×240 (`stretch/mode=viewport`, base 320×240, ventana 1280×960). Framebuffer nativo 320×240.
+- Shader PSX (`psx_vertex_snap.gdshader`) en suelo, 3 paredes, player y enemigo.
+- Quitado `unshaded` → `vertex_lighting` + transformación de NORMAL en el vertex (entorno ya no plano).
+- Materiales: `psx_material.tres` (entorno gris), `psx_material_player.tres` (blanco),
+  `psx_material_enemy.tres` (rojo).
+- HUD reescalado a 320×240 (`hud.tscn`).
+- Muros subidos a 5 m (escala Y ×1.6667) para que el límite lateral se vea desde las cámaras.
 
-### Cómo funciona el cambio (referencia técnica)
-`camera_zone.gd`:
-- `Area3D` con `collision_mask = Layer 1` → detecta solo al Player.
-- Conecta **solo `body_entered`** → al entrar el player llama
-  `_camera_system.switch_to_camera(_camera)` (fade a esa cámara).
-- **NO conecta `body_exited`.**
-- Tiene `camera_sway` (balanceo cinematográfico sutil) ya activo.
+---
 
-### Tareas concretas
-1. **Reposicionar las 2 `Camera3D`** (una por zona) con ángulos tipo RE1:
-   - Zona 1 (entrada): cámara alta en picado / esquina superior.
-   - Zona 2 (fondo): cámara lateral o en esquina opuesta, claustrofóbica.
-   - Que ambas encuadren bien al player Y al enemigo en su zona.
-2. **Transición bidireccional sin huecos:**
-   - Con solo `body_entered` ya debería volver de cam2 → cam1 al retroceder
-     (vuelve a disparar el `entered` de la zona 1).
-   - ⚠️ Verificar que los `CollisionShape3D` (BoxShape) de ambas zonas
-     **cubren todo el pasillo sin dejar hueco** entre z=+3.5 y z=−3.5.
-     Si hay hueco, en el medio no se activa ninguna cámara (la última se queda).
-   - Si se quiere control más fino, evaluar añadir `body_exited` o un gestor
-     de "última zona activa" en `fixed_camera_system.gd`.
-3. Personalizar `zone_name` de cada zona (ahora ambas = `"zona_default"`).
-4. (Opcional) Más zonas siguiendo el GDD: Plaza, Callejón, Casa, Patio, Iglesia.
+## 🎥 Cámaras estilo RE1 — ✅ RESUELTO (2026-05-31)
 
-### Datos de partida (al reabrir el editor, verificar en vivo)
+Detalle en `docs/CHANGELOG.md`. Resumen:
+- Cam "plaza" (Zona 1) en `(1.8, 3.6, 7)`, rot ≈ (−28°, +18°, 0). Esquina alta, diagonal a −Z.
+- Cam "callejón" (Zona 2) en `(−1.8, 3.8, 1)`, rot ≈ (−30°, −18°, 0). Esquina opuesta, a −Z.
+  (Recolocadas estilo RE clásico: esquina alta, picado moderado, vista 3/4 diagonal.)
+- Zonas renombradas: `"plaza"` / `"callejon"`.
+- Transición bidireccional OK: los box de zona (4×3×7) se tocan en z=0 sin hueco.
+
+**Nota:** ambas cámaras miran a −Z → "adelante" (W) lleva al fondo en las dos zonas,
+sin inversión ni rebote al cruzar z=0. (Si en el futuro alguna cámara mira a +Z, evaluar
+un buffer de input direccional ~0.3 s al cambiar de cámara.)
+
+**Pendiente del autor:** reposicionar el callejón cuando se conecten 2 rooms reales.
+
+### Geometría del pasillo (referencia confirmada en vivo)
+- Suelo 20×20, superficie en y=0. Muros: cara interior en x=±2.0; muro de fondo en z=−7.5.
+- Interior jugable: X∈[−2,+2], Z desde −7.5 (pared) hasta abierto en +7.5.
 - Player inicia en `(0, 1, 5)`. Enemigo en `(0, 1, −4)`.
-- Pasillo orientado en el eje Z. Paredes en Layer 2 (Environment).
-- Falta confirmar tamaño exacto de los `CollisionShape3D` de las zonas y
-  las posiciones/rotaciones actuales de cada `Camera3D` (no leídas aún;
-  el editor se desconectó al anotar esto).
 
 ---
 
@@ -73,7 +70,6 @@ hacia adelante cambia de Cámara 1 → 2, y al volver hacia atrás de 2 → 1).
   - Enemy → `collision_mask = 3` (Environment + Player).
 
 ## ⏳ Otras pendientes (de menor prioridad)
-- Look PSX completo: viewport 320×240 + shader en todo el nivel (ahora solo suelo).
 - Nombres de Collision Layers en Project Settings (cosmético; los valores ya funcionan).
 - Colocar pickups de items en el mapa para probar interacción (tecla E) e inventario.
 - Puertas, puzzle de la llave, más enemigos y las 5 zonas del GDD.
