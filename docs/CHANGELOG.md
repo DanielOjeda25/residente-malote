@@ -7,6 +7,39 @@ Formato: `## [fecha] — título` + lista de cambios.
 
 ---
 
+## [2026-06-01] — Rebuild del nivel: dos salas + puerta (graybox limpio)
+
+Se rehízo `test_level.tscn` desde cero para limpiar parches acumulados.
+- **Dos salas 8×8** (sala A spawn / sala B enemigo) unidas por un **muro divisorio
+  con puerta** (`door.gd`, se abre con E, sin llave). Suelo, 4 paredes y **techo**
+  sólidos y cerrados (sin "ver a través").
+- **Puerta** con material propio marrón (`psx_material_door.tres`) para distinguirla.
+- Player y enemigo apoyados en el suelo (y=1).
+- 2 cámaras fijas RE, **dentro** de cada sala (bug corregido: las cámaras son hijas de
+  su zona → sus posiciones son LOCALES; antes quedaban fuera de la sala). FOV 55.
+- 2 `OmniLight3D` interiores + niebla ambiental. Snapping del entorno bajado a 0.2
+  (menos deformación en superficies grandes).
+- ⚠️ Pendiente de verificar en runtime por el autor: apertura de la puerta (E) y la
+  transición de cámara entre salas. (Docs detalladas pendientes; commit de respaldo.)
+
+---
+
+## [2026-06-01] — Niebla unificada al entorno (deja de "cortar" al enemigo)
+
+- Problema: había **doble niebla** — la del `WorldEnvironment` (ya existía, color casi
+  negro) Y la per-material del shader PSX (mezcla cada objeto a negro por distancia). La
+  del shader hacía que el enemigo se viera "cortado" contra el fondo oscuro.
+- Quitada la niebla del shader en los 3 materiales (`fog_enabled=false` en
+  `psx_material.tres`, `psx_material_player.tres`, `psx_material_enemy.tres`).
+- Reemplazado el `Environment` del nivel por uno con niebla ambiental aclarada y sin
+  volumétrica: `fog_light_color ≈ (0.3,0.3,0.36)`, `fog_density=0.03`,
+  `volumetric_fog_enabled=false` (cielo procedural y ambiente conservados). Ahora la
+  niebla es global y uniforme (atmósfera del mapa), no recorta objetos.
+- Verificado: el fondo del callejón es bruma gris en vez de vacío negro; el enemigo se
+  lee a media distancia.
+
+---
+
 ## [2026-06-01] — Cámaras recolocadas estilo RE (investigación + ambas zonas)
 
 Investigado cómo posicionaba RE clásico sus cámaras fijas (fondos 2D pre-renderizados;
