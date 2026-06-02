@@ -1,16 +1,5 @@
-[gd_resource type="ShaderMaterial" format=3]
-
-[ext_resource type="Shader" uid="uid://cesn22ks07ky4" path="res://shaders/psx_vertex_snap.gdshader" id="1_yg0v6"]
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://ceudt33f73t7t"]
 
 [resource]
-render_priority = 0
-shader = ExtResource("1_yg0v6")
-shader_parameter/snap_intensity = 0.2
-shader_parameter/resolution = 160.0
-shader_parameter/color_depth = 16.0
-shader_parameter/affine_intensity = 0.8
-shader_parameter/albedo_color = Color(0.55, 0.32, 0.14, 1)
-shader_parameter/fog_enabled = false
-shader_parameter/fog_color = Color(0, 0, 0, 1)
-shader_parameter/fog_start = 5.0
-shader_parameter/fog_end = 18.0
+albedo_color = Color(0.55, 0.32, 0.14, 1)
+roughness = 1.0

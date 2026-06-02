@@ -2,7 +2,7 @@
 
 [ext_resource type="Material" uid="uid://vq6g2ie0mh60" path="res://resources/psx_material.tres" id="1_env"]
 [ext_resource type="PackedScene" uid="uid://nmfumfeeitqu" path="res://scenes/player/player.tscn" id="2_player"]
-[ext_resource type="Material" path="res://resources/psx_material_door.tres" id="3_7x1jh"]
+[ext_resource type="Material" uid="uid://ceudt33f73t7t" path="res://resources/psx_material_door.tres" id="3_7x1jh"]
 [ext_resource type="PackedScene" uid="uid://c6ss2j8msg66o" path="res://scenes/enemies/enemy_human.tscn" id="3_enemy"]
 [ext_resource type="Script" uid="uid://yivfwf4jc71k" path="res://scripts/camera/fixed_camera_system.gd" id="4_camsys"]
 [ext_resource type="Script" uid="uid://d2b8ex7q8g7yw" path="res://scripts/camera/camera_zone.gd" id="5_camzone"]
@@ -78,7 +78,7 @@ size = Vector3(8, 3, 8)
 [node name="TestLevel" type="Node3D" unique_id=413388636]
 
 [node name="Floor" type="StaticBody3D" parent="." unique_id=753307541]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.27, 0)
 collision_layer = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=39300541]
