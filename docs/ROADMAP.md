@@ -26,7 +26,8 @@ Leyenda: ✅ hecho · 🟡 en progreso · ⬜ pendiente
 - [x] Estructura de inventario (script) + items `.tres`
 - [x] HUD (vida, munición, prompts)
 - [x] Nivel reconstruido: dos salas + **puerta** colocada (`door.gd`)
-- [ ] Apertura de puerta (E) y transición de cámara entre salas — verificar en runtime
+- [x] Apertura de puerta con **E** verificada (interacción por proximidad)
+- [ ] Transición de cámara entre salas — verificar en runtime
 - [ ] Pickups colocados + interacción (E) probada
 - [ ] Combate verificado (apuntar + disparar + cuchillo contra enemigo)
 - [ ] Inventario funcional en juego (abrir, usar, combinar)

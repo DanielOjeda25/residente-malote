@@ -32,7 +32,7 @@ signal aiming_changed(is_aiming: bool)
 @export var knife_cooldown: float = 0.6
 
 @export_group("Interaction")
-@export var interact_distance: float = 2.0
+@export var interact_distance: float = 2.5
 
 # === ESTADOS ===
 enum State { IDLE, WALKING, RUNNING, AIMING, ATTACKING, DAMAGED, DEAD }
@@ -230,10 +230,25 @@ func _knife_attack() -> void:
 # === INTERACCIÓN ===
 
 func _try_interact() -> void:
-	if interaction_ray and interaction_ray.is_colliding():
-		var collider := interaction_ray.get_collider()
-		if collider and collider.has_method("interact"):
-			collider.interact(self)
+	var target := get_nearest_interactable()
+	if target and target.has_method("interact"):
+		target.interact(self)
+
+## Devuelve el interactable más cercano dentro de interact_distance (o null).
+## Detección por PROXIMIDAD (grupo "interactable") en vez de rayo estricto:
+## no exige encarar con precisión, estilo RE clásico (te acercás y pulsás E).
+func get_nearest_interactable() -> Node3D:
+	var nearest: Node3D = null
+	var nearest_dist := interact_distance
+	for node in get_tree().get_nodes_in_group("interactable"):
+		if not (node is Node3D):
+			continue
+		var n3d := node as Node3D
+		var d := global_position.distance_to(n3d.global_position)
+		if d <= nearest_dist:
+			nearest_dist = d
+			nearest = n3d
+	return nearest
 
 # === DAÑO ===
 

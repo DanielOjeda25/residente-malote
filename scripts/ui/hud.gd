@@ -58,21 +58,19 @@ func _update_ammo() -> void:
 	ammo_label.text = "AMMO: " + str(Globals.player_ammo_pistol)
 
 func _update_interact_prompt() -> void:
-	# Verificar si el jugador está mirando algo interactable
+	# Mostrar prompt si hay un interactable cercano (proximidad, no rayo)
 	var player := get_tree().get_first_node_in_group("player")
-	if player == null:
+	if player == null or not player.has_method("get_nearest_interactable"):
 		interact_prompt.visible = false
 		return
 
-	var ray: RayCast3D = player.get_node_or_null("InteractionRay")
-	if ray and ray.is_colliding():
-		var collider := ray.get_collider()
-		if collider and collider.has_method("get_interact_prompt"):
-			var prompt_text: String = collider.get_interact_prompt()
-			if prompt_text != "":
-				interact_prompt.text = "[E] " + prompt_text
-				interact_prompt.visible = true
-				return
+	var target: Node3D = player.get_nearest_interactable()
+	if target and target.has_method("get_interact_prompt"):
+		var prompt_text: String = target.get_interact_prompt()
+		if prompt_text != "":
+			interact_prompt.text = "[E] " + prompt_text
+			interact_prompt.visible = true
+			return
 
 	interact_prompt.visible = false
 

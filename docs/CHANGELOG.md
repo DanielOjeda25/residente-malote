@@ -7,6 +7,37 @@ Formato: `## [fecha] — título` + lista de cambios.
 
 ---
 
+## [2026-06-01] — Puerta abre Y cierra (toggle)
+
+- `door.gd`: ahora la puerta **alterna** con E. `interact()` cierra si está abierta;
+  nuevo `_close_door()` que reactiva la colisión (Env+Interactable) y rota a la posición
+  original. `get_interact_prompt()` devuelve "Abrir puerta" / "Cerrar puerta" según estado.
+- Corregido el orden de `set_ease`/`set_trans` (antes del `tween_property`, como pide Godot 4).
+- Verificado en runtime: E abre (90°, colisión off) y E cierra (0°, colisión on).
+
+---
+
+## [2026-06-01] — Puerta verificada + interacción por proximidad
+
+- **Puerta verificada en runtime** (simulando E vía MCP): abre correctamente
+  (rotación 90°, desactiva colisión para cruzar). El mecanismo de `door.gd` estaba bien;
+  el problema al jugar era de **encare** (el rayo solo detectaba la puerta si la mirabas
+  de frente).
+- **Interacción cambiada a proximidad** (estilo RE clásico): `player_controller.gd` ahora
+  busca el interactable más cercano del grupo `"interactable"` dentro de `interact_distance`
+  (subido 2.0 → 2.5) en `get_nearest_interactable()`, en vez del `InteractionRay` estricto.
+  Verificado: la puerta abre aun mirando hacia el lado contrario y descentrado.
+- `hud.gd`: el prompt `[E] ...` usa la misma detección por proximidad.
+- **HUD más legible** (`hud.tscn`): vida ahora muestra `VIDA` + barra con porcentaje (`100%`);
+  prompt de interacción en amarillo con contorno, centrado abajo; todo con outline negro
+  para leerse sobre fondos claros. (Antes la vida era solo un bloque verde sin número y el
+  prompt apenas se notaba.)
+- **Ventana 1280×960 → 800×600**: la ventana era más alta que una pantalla 720p y cortaba
+  el borde superior del HUD (no se veía la vida). 800×600 (4:3) entra cómodo. El render sigue
+  a 320×240.
+
+---
+
 ## [2026-06-01] — Rebuild del nivel: dos salas + puerta (graybox limpio)
 
 Se rehízo `test_level.tscn` desde cero para limpiar parches acumulados.

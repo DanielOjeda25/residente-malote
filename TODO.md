@@ -8,12 +8,11 @@
 ## ▶️ PRIORIDAD: verificar en runtime el nivel reconstruido
 
 `test_level.tscn` se rehízo como **dos salas + puerta** (ver CHANGELOG 2026-06-01).
-Verificar en juego (pendiente del autor, probar en casa):
-1. **Puerta**: caminar hasta la puerta marrón (en el muro divisorio, z=0) y pulsar **E**.
-   Debería abrirse (no requiere llave). `door.gd` en nodo `Door`. Si NO abre, depurar:
-   alcance del `InteractionRay` del player (target z=−2, mask 8) y que el player llegue
-   bastante cerca.
-2. **Transición de cámara** sala A ↔ sala B al cruzar la puerta (zonas se tocan en z=0).
+1. [x] **Puerta**: abre con **E**. Verificado. Interacción ahora por **proximidad**
+   (`get_nearest_interactable()` en `player_controller.gd`, grupo `"interactable"`,
+   `interact_distance=2.5`) → no hace falta encararla.
+2. [ ] **Transición de cámara** sala A ↔ sala B al cruzar la puerta — verificar en juego
+   caminando de una sala a la otra (zonas se tocan en z=0).
 
 ## Fase 2 — Sistemas (siguiente)
 1. **Pickups**: instanciar `pickup.gd` (con un `ItemData`) en las salas y probar **E**.

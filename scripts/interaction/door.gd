@@ -35,6 +35,7 @@ func interact(player: CharacterBody3D) -> void:
 		return
 
 	if _is_open:
+		_close_door()
 		return
 
 	if _is_locked:
@@ -73,10 +74,10 @@ func _open_door() -> void:
 
 	# Animación de apertura
 	var tween := create_tween()
-	tween.tween_property(self, "rotation_degrees:y",
-		_original_rotation + open_angle, 1.0 / open_speed)
 	tween.set_ease(Tween.EASE_OUT)
 	tween.set_trans(Tween.TRANS_QUAD)
+	tween.tween_property(self, "rotation_degrees:y",
+		_original_rotation + open_angle, 1.0 / open_speed)
 	await tween.finished
 
 	_is_animating = false
@@ -85,9 +86,28 @@ func _open_door() -> void:
 	collision_layer = 0
 	collision_mask = 0
 
+func _close_door() -> void:
+	_is_animating = true
+
+	# Reactivar colisión (estaba desactivada al abrir): Env (Layer 2) + Interactable (Layer 4)
+	collision_layer = 0b1010
+	collision_mask = 0
+
+	# Animación de cierre (vuelve a la rotación original)
+	var tween := create_tween()
+	tween.set_ease(Tween.EASE_OUT)
+	tween.set_trans(Tween.TRANS_QUAD)
+	tween.tween_property(self, "rotation_degrees:y",
+		_original_rotation, 1.0 / open_speed)
+	await tween.finished
+
+	_is_open = false
+	_is_animating = false
+	Globals.dialog_shown.emit("Cierras la puerta.")
+
 func get_interact_prompt() -> String:
 	if _is_locked:
-		return "Puerta cerrada"
-	elif not _is_open:
-		return "Abrir puerta"
-	return ""
+		return "Puerta cerrada con llave"
+	elif _is_open:
+		return "Cerrar puerta"
+	return "Abrir puerta"
